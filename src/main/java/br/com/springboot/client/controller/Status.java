@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @RestController
 @RequestMapping("/api/client/status")
 public class Status {
@@ -16,8 +20,10 @@ public class Status {
 
 	@GetMapping
 	@ResponseStatus(code = HttpStatus.OK)
-	public String applicationStatus() {
+	public JsonNode applicationStatus() throws JsonProcessingException {
 		logger.info("Application is running");
-		return "RUNNING";
+
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readTree("{\"status\":\"running\"}");
 	}
 }
